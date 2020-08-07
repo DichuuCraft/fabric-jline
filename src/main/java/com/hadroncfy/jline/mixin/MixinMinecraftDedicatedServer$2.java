@@ -56,12 +56,14 @@ public abstract class MixinMinecraftDedicatedServer$2 {
                     } catch (InterruptedException e) {
                     }
                 }
-                s = s.trim();
-                if (s.length() > 0){
-                    field_13822.enqueueCommand(s, field_13822.getCommandSource());
+                else {
+                    s = s.trim();
+                    if (s.length() > 0){
+                        field_13822.enqueueCommand(s, field_13822.getCommandSource());
+                    }
                 }
             }
-        } catch(IOException e){
+        } catch(Throwable e){
             LOGGER.error("Exception handling console input", e);
         }
 

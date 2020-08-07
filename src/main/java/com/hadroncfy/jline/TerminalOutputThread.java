@@ -29,6 +29,9 @@ public class TerminalOutputThread extends Thread {
         String msg;
         while (true){
             msg = QueueLogAppender.getNextLogEvent(EVENT_NAME);
+            if (msg == null){
+                continue;
+            }
             try {
                 if (Mod.useJline){
                     reader.print(Ansi.ansi().eraseLine(Erase.ALL).toString() + ConsoleReader.RESET_LINE);
