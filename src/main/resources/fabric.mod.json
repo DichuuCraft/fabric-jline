@@ -9,9 +9,9 @@
     "hadroncfy"
   ],
   "contact": {
-    "homepage": "https://github.com/DichuuCraft/SReplay",
-    "sources": "https://github.com/DichuuCraft/SReplay",
-    "issues": "https://github.com/DichuuCraft/SReplay/issues"
+    "homepage": "https://github.com/DichuuCraft/fabric-jline",
+    "sources": "https://github.com/DichuuCraft/fabric-jline",
+    "issues": "https://github.com/DichuuCraft/fabric-jline/issues"
   },
 
   "license": "MIT",
