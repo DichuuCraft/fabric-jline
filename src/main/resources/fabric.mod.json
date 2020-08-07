@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "fabric-jline",
+  "version": "${version}",
+
+  "name": "jline",
+  "description": "JLine input for Minecraft servers",
+  "authors": [
+    "hadroncfy"
+  ],
+  "contact": {
+    "homepage": "https://github.com/DichuuCraft/SReplay",
+    "sources": "https://github.com/DichuuCraft/SReplay",
+    "issues": "https://github.com/DichuuCraft/SReplay/issues"
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+    ]
+  },
+  "mixins": [
+    "jline.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "minecraft": "1.14.*"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

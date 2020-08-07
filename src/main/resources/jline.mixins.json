@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.hadroncfy.jline.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+
+  ],
+  "client": [
+  ],
+  "server": [
+    "MixinMinecraftDedicatedServer",
+    "MixinMinecraftDedicatedServer$2"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
