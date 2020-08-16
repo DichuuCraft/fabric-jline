@@ -1,7 +1,7 @@
 package com.hadroncfy.jline.interfaces;
 
-import jline.console.ConsoleReader;
+import org.jline.reader.LineReader;
 
 public interface IDedicatedServer {
-    ConsoleReader getReader();
+    LineReader getReader();
 }

@@ -1,7 +1,6 @@
 package com.hadroncfy.jline.mixin;
 
 import com.hadroncfy.jline.CommandTabCompletor;
-import com.hadroncfy.jline.Mod;
 import com.hadroncfy.jline.TerminalOutputThread;
 import com.hadroncfy.jline.interfaces.IDedicatedServer;
 import com.mojang.authlib.GameProfileRepository;
@@ -15,12 +14,15 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.layout.PatternLayout;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import jline.console.ConsoleReader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldGenerationProgressListenerFactory;
 import net.minecraft.server.command.CommandManager;
@@ -30,6 +32,7 @@ import net.minecraft.util.UserCache;
 import java.io.File;
 import java.io.IOException;
 import java.net.Proxy;
+import java.nio.charset.StandardCharsets;
 
 @Mixin(MinecraftDedicatedServer.class)
 public abstract class MixinMinecraftDedicatedServer extends MinecraftServer implements IDedicatedServer {
@@ -42,34 +45,21 @@ public abstract class MixinMinecraftDedicatedServer extends MinecraftServer impl
     }
 
     private static Logger LOGGER = LogManager.getLogger();
-    private ConsoleReader reader;
+    private Terminal terminal;
+    private LineReader reader;
 
     @Inject(method = "setupServer", at = @At("HEAD"))
     private void initLogging(CallbackInfoReturnable<Void> ci){
-        Mod.useJline = true;
-
-        if (System.console() == null && System.getProperty("jline.terminal") == null) {
-            System.setProperty("jline.terminal", "jline.UnsupportedTerminal");
-            Mod.useJline = false;
-        }
-
-        try {
-            reader = new ConsoleReader(System.in, System.out);
-            reader.setExpandEvents(false);
-        } catch (Throwable e) {
+        if (!"jline.UnsupportedTerminal".equals(System.getProperty("jline.terminal"))){
             try {
-                System.setProperty("jline.terminal", "jline.UnsupportedTerminal");
-                System.setProperty("user.language", "en");
-                Mod.useJline = false;
-                reader = new ConsoleReader(System.in, System.out);
-                reader.setExpandEvents(false);
-            } catch (IOException e2) {
-                LOGGER.info("Cannot initialize jline", e2);
+                terminal = TerminalBuilder.builder()
+                    .encoding(StandardCharsets.UTF_8).build();
+                reader = LineReaderBuilder.builder()
+                    .terminal(terminal)
+                    .completer(new CommandTabCompletor(this)).build();
+            } catch(IOException e){
+                LOGGER.warn("Exception creating terminal", e);
             }
-        }
-
-        if (reader != null){
-            reader.addCompleter(new CommandTabCompletor(this));
         }
 
         org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger)LogManager.getRootLogger();
@@ -83,11 +73,11 @@ public abstract class MixinMinecraftDedicatedServer extends MinecraftServer impl
         consoleAppender.start();
         logger.addAppender(consoleAppender);
 
-        new TerminalOutputThread(System.out, reader).start();
+        new TerminalOutputThread(System.out, terminal, reader).start();
     }
 
     @Override
-    public ConsoleReader getReader() {
+    public LineReader getReader() {
         return reader;
     }
 }
