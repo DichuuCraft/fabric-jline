@@ -1,9 +1,5 @@
 package com.hadroncfy.jline.mixin;
 
-import java.io.IOError;
-import java.io.IOException;
-
-import com.hadroncfy.jline.Mod;
 import com.hadroncfy.jline.interfaces.IDedicatedServer;
 
 import org.apache.logging.log4j.LogManager;
@@ -27,8 +23,7 @@ public abstract class MixinMinecraftDedicatedServer$2 {
 
     private boolean stopped = false;
 
-    @Shadow @Final
-    MinecraftDedicatedServer field_13822;
+    @Shadow @Final MinecraftDedicatedServer field_13822;
 
     private void readLine(LineReader reader){
         try {
@@ -38,18 +33,15 @@ public abstract class MixinMinecraftDedicatedServer$2 {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                 }
-            }
-            else {
+            } else {
                 s = s.trim();
                 if (s.length() > 0){
                     field_13822.enqueueCommand(s, field_13822.getCommandSource());
                 }
             }
-        } 
-        catch(UserInterruptException e){
+        } catch(UserInterruptException e){
             field_13822.stop(false);
-        }
-        catch(EndOfFileException e){
+        } catch(EndOfFileException e){
             // ignore
         }
     }
@@ -66,14 +58,12 @@ public abstract class MixinMinecraftDedicatedServer$2 {
             while (!field_13822.isStopped() && field_13822.isRunning()) {
                 try {
                     readLine(reader);
-                }
-                catch(Exception e){
+                } catch(Exception e){
                     LOGGER.error("Exception handling console input", e);
                 }
             }
             stopped = true;
-        }
-        else {
+        } else {
             LOGGER.warn("Line reader not initialized, falling back to default console handler");
         }
     }
