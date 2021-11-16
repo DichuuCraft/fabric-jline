@@ -31,8 +31,7 @@ public abstract class MixinMinecraftDedicatedServer$2 {
             if (s == null) {
                 try {
                     Thread.sleep(50);
-                } catch (InterruptedException e) {
-                }
+                } catch (InterruptedException e) {}
             } else {
                 s = s.trim();
                 if (s.length() > 0){
@@ -57,7 +56,7 @@ public abstract class MixinMinecraftDedicatedServer$2 {
         if (reader != null){
             while (!field_13822.isStopped() && field_13822.isRunning()) {
                 try {
-                    readLine(reader);
+                    this.readLine(reader);
                 } catch(Exception e){
                     LOGGER.error("Exception handling console input", e);
                 }
