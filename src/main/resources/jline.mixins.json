@@ -10,7 +10,7 @@
   ],
   "server": [
     "MixinMinecraftDedicatedServer",
-    "MixinMinecraftDedicatedServer$2"
+    "MixinMinecraftDedicatedServer$1"
   ],
   "injectors": {
     "defaultRequire": 1

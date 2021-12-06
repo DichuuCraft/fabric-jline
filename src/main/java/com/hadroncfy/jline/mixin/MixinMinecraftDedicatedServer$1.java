@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 
-@Mixin(targets = "net.minecraft.server.dedicated.MinecraftDedicatedServer$2")
-public abstract class MixinMinecraftDedicatedServer$2 {
+@Mixin(targets = "net.minecraft.server.dedicated.MinecraftDedicatedServer$1")
+public abstract class MixinMinecraftDedicatedServer$1 {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private boolean stopped = false;
