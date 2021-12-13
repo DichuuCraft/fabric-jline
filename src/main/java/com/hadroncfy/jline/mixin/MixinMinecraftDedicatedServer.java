@@ -68,7 +68,7 @@ public abstract class MixinMinecraftDedicatedServer extends MinecraftServer impl
                 logger.removeAppender(ap);
             }
         }
-        PatternLayout layout = PatternLayout.newBuilder().withPattern("[%d{HH:mm:ss}] [%t/%level]: %msg%n").build();
+        PatternLayout layout = PatternLayout.newBuilder().withPattern("[%d{HH:mm:ss}] [%t/%level]: %msg{nolookups}%n").build();
         Appender consoleAppender = QueueLogAppender.createAppender(TerminalOutputThread.EVENT_NAME, "false", layout, null, null);
         consoleAppender.start();
         logger.addAppender(consoleAppender);
