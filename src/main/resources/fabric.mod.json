@@ -26,8 +26,7 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.7.4",
-    "minecraft": "1.18.*"
+    "fabricloader": ">=0.7.4"
   },
   "suggests": {
     "flamingo": "*"

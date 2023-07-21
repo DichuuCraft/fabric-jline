@@ -3,10 +3,8 @@ package com.hadroncfy.jline.mixin;
 import com.hadroncfy.jline.CommandTabCompletor;
 import com.hadroncfy.jline.TerminalOutputThread;
 import com.hadroncfy.jline.interfaces.IDedicatedServer;
-import com.mojang.authlib.GameProfileRepository;
-import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.datafixers.DataFixer;
-import com.mojang.util.QueueLogAppender;
+import com.mojang.logging.plugins.QueueLogAppender;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,13 +21,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.resource.ResourcePackManager;
-import net.minecraft.resource.ServerResourceManager;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.SaveLoader;
 import net.minecraft.server.WorldGenerationProgressListenerFactory;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
-import net.minecraft.util.UserCache;
-import net.minecraft.util.registry.DynamicRegistryManager.Impl;
-import net.minecraft.world.SaveProperties;
+import net.minecraft.util.ApiServices;
 import net.minecraft.world.level.storage.LevelStorage.Session;
 
 import java.io.IOException;
@@ -38,13 +34,12 @@ import java.nio.charset.StandardCharsets;
 
 @Mixin(MinecraftDedicatedServer.class)
 public abstract class MixinMinecraftDedicatedServer extends MinecraftServer implements IDedicatedServer {
-    public MixinMinecraftDedicatedServer(Thread thread, Impl impl, Session session, SaveProperties saveProperties,
-            ResourcePackManager resourcePackManager, Proxy proxy, DataFixer dataFixer,
-            ServerResourceManager serverResourceManager, MinecraftSessionService minecraftSessionService,
-            GameProfileRepository gameProfileRepository, UserCache userCache,
+
+    public MixinMinecraftDedicatedServer(Thread serverThread, Session session, ResourcePackManager dataPackManager,
+            SaveLoader saveLoader, Proxy proxy, DataFixer dataFixer, ApiServices apiServices,
             WorldGenerationProgressListenerFactory worldGenerationProgressListenerFactory) {
-        super(thread, impl, session, saveProperties, resourcePackManager, proxy, dataFixer, serverResourceManager,
-                minecraftSessionService, gameProfileRepository, userCache, worldGenerationProgressListenerFactory);
+        super(serverThread, session, dataPackManager, saveLoader, proxy, dataFixer, apiServices,
+                worldGenerationProgressListenerFactory);
     }
 
     private static Logger LOGGER = LogManager.getLogger();

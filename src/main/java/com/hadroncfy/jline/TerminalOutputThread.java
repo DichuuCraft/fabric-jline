@@ -3,11 +3,13 @@ package com.hadroncfy.jline;
 
 import java.io.OutputStream;
 
-import com.mojang.util.QueueLogAppender;
+import com.mojang.logging.LogQueues;
 
 import org.apache.logging.log4j.LogManager;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
+
+import com.mojang.logging.plugins.QueueLogAppender;
 
 public class TerminalOutputThread extends Thread {
     public static final String EVENT_NAME = "Fabric-JLine-TerminalConsole";
@@ -28,7 +30,7 @@ public class TerminalOutputThread extends Thread {
     public void run() {
         String msg;
         while (true){
-            msg = QueueLogAppender.getNextLogEvent(EVENT_NAME);
+            msg = LogQueues.getNextLogEvent(EVENT_NAME);
             if (msg == null){
                 continue;
             }
